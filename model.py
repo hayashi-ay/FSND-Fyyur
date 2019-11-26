@@ -26,7 +26,13 @@ class Venue(db.Model):
   phone = db.Column(db.String(120))
   image_link = db.Column(db.String(500))
   facebook_link = db.Column(db.String(120))
+  web_site = db.Column(db.String(120))
+  seeking_talent = db.Column(db.Boolean, nullable=False, default=False)
+  seeking_description = db.Column(db.String(120))
   artists = db.relationship('Artist', secondary=shows, backref=db.backref('artists', lazy=True))
+
+  def __repr__(self):
+    return f'<Venue {self.id} {self.name}>'
 
 class Artist(db.Model):
   __tablename__ = 'artists'
