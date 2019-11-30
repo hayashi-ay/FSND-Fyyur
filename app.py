@@ -55,30 +55,23 @@ def index():
 
 @app.route('/venues')
 def venues():
-  # TODO: replace with real venues data.
-  #       num_shows should be aggregated based on number of upcoming shows per venue.
-  data=[{
-    "city": "San Francisco",
-    "state": "CA",
-    "venues": [{
-      "id": 1,
-      "name": "The Musical Hop",
-      "num_upcoming_shows": 0,
-    }, {
-      "id": 3,
-      "name": "Park Square Live Music & Coffee",
-      "num_upcoming_shows": 1,
+  # TODO: get shows info
+  # TODO: group by city and state
+  venues = Venue.query.all()
+
+  data = []
+  for venue in venues:
+    tmp = {}
+    tmp['city'] = venue.city
+    tmp['state'] = venue.state
+    tmp['venues'] = [{
+      'id': venue.id,
+      'name': venue.name,
+      'num_upcoming_shows': 0
     }]
-  }, {
-    "city": "New York",
-    "state": "NY",
-    "venues": [{
-      "id": 2,
-      "name": "The Dueling Pianos Bar",
-      "num_upcoming_shows": 0,
-    }]
-  }]
-  return render_template('pages/venues.html', areas=data);
+    data.append(tmp)
+
+  return render_template('pages/venues.html', areas=data)
 
 @app.route('/venues/search', methods=['POST'])
 def search_venues():
@@ -98,7 +91,7 @@ def search_venues():
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
   # TODO: get shows info
-  # TOOD: genres are passed by dict
+  # TODO: genres are passed by dict
   data = Venue.query.get(venue_id)
 
   return render_template('pages/show_venue.html', venue=data)
