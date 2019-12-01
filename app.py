@@ -55,7 +55,7 @@ def index():
 
 @app.route('/venues')
 def venues():
-  # TODO: get shows info
+  # TODO: shows info should be filtered by start_time
   # TODO: group by city and state
   venues = Venue.query.all()
 
@@ -67,7 +67,7 @@ def venues():
     tmp['venues'] = [{
       'id': venue.id,
       'name': venue.name,
-      'num_upcoming_shows': 0
+      'num_upcoming_shows': len( venue.shows )
     }]
     data.append(tmp)
 
