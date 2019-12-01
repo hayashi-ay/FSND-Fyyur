@@ -13,7 +13,7 @@ import logging
 from logging import Formatter, FileHandler
 from flask_wtf import Form
 from forms import *
-from model import db, Venue, Artist
+from model import db, Venue, Artist, Show
 import sys
 #----------------------------------------------------------------------------#
 # App Config.
