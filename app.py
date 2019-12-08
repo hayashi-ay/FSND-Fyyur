@@ -25,8 +25,6 @@ app.config.from_object('config')
 db.init_app(app)
 migrate = Migrate( app, db )
 
-# TODO: connect to a local postgresql database
-
 #----------------------------------------------------------------------------#
 # Filters.
 #----------------------------------------------------------------------------#
