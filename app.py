@@ -73,9 +73,16 @@ def venues():
 
 @app.route('/venues/search', methods=['POST'])
 def search_venues():
-  # TODO: get shows info
   search_term = request.form.get('search_term' )
-  data = Venue.query.filter( Venue.name.ilike( '%{}%'.format( search_term) ) ).all()
+  venues = Venue.query.filter( Venue.name.ilike( '%{}%'.format( search_term) ) ).all()
+
+  data = []
+  for venue in venues:
+    tmp = {}
+    tmp['id'] = venue.id
+    tmp['name'] = venue.name
+    tmp['num_upcoming_shows'] = len( venue.shows )
+    data.append(tmp)
 
   response = {}
   response['count'] = len( data )
