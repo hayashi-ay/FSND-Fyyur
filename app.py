@@ -93,8 +93,8 @@ def search_venues():
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
   # TODO: get shows info
-  # TODO: genres are passed by dict
   data = Venue.query.get(venue_id)
+  data.genres = data.genres.split(',') # convert string to list
 
   return render_template('pages/show_venue.html', venue=data)
 
@@ -116,7 +116,8 @@ def create_venue_submission():
     venue.state = request.form['state']
     venue.address = request.form['address']
     venue.phone = request.form['phone']
-    venue.genres = request.form['genres']
+    tmp_genres = request.form.getlist('genres')
+    venue.genres = ','.join( tmp_genres ) # convert list to string
     venue.facebook_link = request.form['facebook_link']
     db.session.add(venue)
     db.session.commit()
@@ -161,8 +162,8 @@ def search_artists():
 @app.route('/artists/<int:artist_id>')
 def show_artist(artist_id):
   # TODO: get shows info
-  # TODO: genres are passed by dict()
   data = Artist.query.get( artist_id )
+  data.genres = data.genres.split(',') # convert string to list
 
   return render_template('pages/show_artist.html', artist=data)
 
@@ -240,7 +241,8 @@ def create_artist_submission():
     artist.city = request.form['city']
     artist.state = request.form['state']
     artist.phone = request.form['phone']
-    artist.genres = request.form['genres']
+    tmp_genres = request.form.getlist('genres')
+    artist.genres = ','.join( tmp_genres ) # convert list to string
     artist.facebook_link = request.form['facebook_link']
     db.session.add(artist)
     db.session.commit()
