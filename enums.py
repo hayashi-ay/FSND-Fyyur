@@ -55,7 +55,7 @@ class State(Enum):
 
   @classmethod
   def choices(cls):
-    return [ (choice, choice.value) for choice in cls ]
+    return [ (choice.value, choice.value) for choice in cls ]
 
 class Genre(Enum):
   Alternative = 'Alternative'
@@ -80,4 +80,4 @@ class Genre(Enum):
 
   @classmethod
   def choices(cls):
-    return [ (choice, choice.value) for choice in cls ]
+    return [ (choice.value, choice.value) for choice in cls ]
