@@ -233,6 +233,11 @@ def create_artist_form():
 
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
+  form = ArtistForm()
+  if not form.validate():
+    flash( form.errors )
+    return redirect(url_for('create_artist_form'))
+
   error = False
   try:
     artist = Artist()
