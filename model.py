@@ -39,6 +39,22 @@ class Venue(db.Model):
   artists = db.relationship('Artist', secondary='shows', back_populates='venues')
   shows = db.relationship('Show')
 
+  def to_dict(self):
+    return {
+      'id': self.id,
+      'name': self.name,
+      'city': self.city,
+      'state': self.state,
+      'address': self.address,
+      'phone': self.phone,
+      'genres': self.genres.split(','), # convert string to list
+      'image_link': self.image_link,
+      'facebook_link': self.facebook_link,
+      'web_site': self.web_site,
+      'seeking_talent': self.seeking_talent,
+      'seeking_description': self.seeking_description,
+    }
+
   def __repr__(self):
     return f'<Venue {self.id} {self.name}>'
 
@@ -59,6 +75,21 @@ class Artist(db.Model):
 
   venues = db.relationship('Venue', secondary='shows', back_populates='artists')
   shows = db.relationship('Show')
+
+  def to_dict(self):
+    return {
+      'id': self.id,
+      'name': self.name,
+      'city': self.city,
+      'state': self.state,
+      'phone': self.phone,
+      'genres': self.genres.split(','), # convert string to list
+      'image_link': self.image_link,
+      'facebook_link': self.facebook_link,
+      'website': self.website,
+      'seeking_venue': self.seeking_venue,
+      'seeking_description': self.seeking_description,
+    }
 
   def __repr__(self):
     return f'<Artist {self.id} {self.name}>'
