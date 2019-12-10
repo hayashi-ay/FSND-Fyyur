@@ -170,9 +170,19 @@ def search_artists():
 
 @app.route('/artists/<int:artist_id>')
 def show_artist(artist_id):
-  # TODO: get shows info
-  data = Artist.query.get( artist_id )
-  data.genres = data.genres.split(',') # convert string to list
+  artist = Artist.query.get(artist_id)
+
+  past_shows = list( filter( lambda x: x.start_time < datetime.today(), artist.shows ) )
+  upcoming_shows = list( filter( lambda x: x.start_time >= datetime.today(), artist.shows ) )
+
+  past_shows = list( map( lambda x: x.with_venue(), past_shows) )
+  upcoming_shows = list( map( lambda x: x.with_venue(), upcoming_shows) )
+
+  data = artist.to_dict()
+  data['past_shows'] = past_shows
+  data['upcoming_shows'] = upcoming_shows
+  data['past_shows_count'] = len(past_shows)
+  data['upcoming_shows_count'] = len(upcoming_shows)
 
   return render_template('pages/show_artist.html', artist=data)
 
