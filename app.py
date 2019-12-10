@@ -91,9 +91,19 @@ def search_venues():
 
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
-  # TODO: get shows info
-  data = Venue.query.get(venue_id)
-  data.genres = data.genres.split(',') # convert string to list
+  venue = Venue.query.get(venue_id)
+
+  past_shows = list( filter( lambda x: x.start_time < datetime.today(), venue.shows ) )
+  upcoming_shows = list( filter( lambda x: x.start_time >= datetime.today(), venue.shows ) )
+
+  past_shows = list( map( lambda x: x.with_artist(), past_shows) )
+  upcoming_shows = list( map( lambda x: x.with_artist(), upcoming_shows) )
+
+  data = venue.to_dict()
+  data['past_shows'] = past_shows
+  data['upcoming_shows'] = upcoming_shows
+  data['past_shows_count'] = len(past_shows)
+  data['upcoming_shows_count'] = len(upcoming_shows)
 
   return render_template('pages/show_venue.html', venue=data)
 
