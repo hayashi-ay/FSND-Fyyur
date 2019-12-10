@@ -20,6 +20,22 @@ class Show(db.Model):
   venue = db.relationship('Venue')
   artist = db.relationship('Artist')
 
+  def with_artist(self):
+    return {
+      'artist_id': self.artist_id,
+      'artist_name': self.artist.name,
+      'artist_image_link': self.artist.image_link,
+      'start_time': self.start_time.strftime('%Y-%m-%d %H:%M:%S') # convert datetime to string
+    }
+
+  def with_venue(self):
+    return {
+      'venue_id': self.venue_id,
+      'venue_name': self.venue.name,
+      'venue_image_link': self.venue.image_link,
+      'start_time': self.start_time.strftime('%Y-%m-%d %H:%M:%S')  # convert datetime to string
+    }
+
 class Venue(db.Model):
   __tablename__ = 'venues'
 
