@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_wtf import Form
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
-from wtforms.validators import ValidationError, Optional, DataRequired, AnyOf, URL
+from wtforms.validators import ValidationError, Optional, DataRequired, AnyOf, URL, Length
 from enums import State, Genre
 
 def anyof_for_multiple_field(values):
@@ -34,53 +34,55 @@ class ShowForm(Form):
 
 class VenueForm(Form):
     name = StringField(
-        'name', validators=[DataRequired()]
+        'name', validators=[DataRequired(),Length(-1,120)]
     )
     city = StringField(
-        'city', validators=[DataRequired()]
+        'city', validators=[DataRequired(),Length(-1,120)]
     )
     state = SelectField(
         'state', validators=[DataRequired(), AnyOf( [ choice.value for choice in State ] )],
         choices=State.choices()
     )
     address = StringField(
-        'address', validators=[DataRequired()]
+        'address', validators=[DataRequired(),Length(-1,120)]
     )
+    # IDEA: add a phone number validator
     phone = StringField(
         'phone'
     )
     image_link = StringField(
-        'image_link', validators=[URL(),Optional()]
+        'image_link', validators=[Length(-1,500),URL(),Optional()]
     )
     genres = SelectMultipleField(
         'genres', validators=[DataRequired(), anyof_for_multiple_field( [ choice.value for choice in Genre ] )],
         choices=Genre.choices()
     )
     facebook_link = StringField(
-        'facebook_link', validators=[URL(),Optional()]
+        'facebook_link', validators=[Length(-1,120),URL(),Optional()]
     )
 
 class ArtistForm(Form):
     name = StringField(
-        'name', validators=[DataRequired()]
+        'name', validators=[DataRequired(),Length(-1,120)]
     )
     city = StringField(
-        'city', validators=[DataRequired()]
+        'city', validators=[DataRequired(),Length(-1,120)]
     )
     state = SelectField(
         'state', validators=[DataRequired(), AnyOf( [ choice.value for choice in State ] )],
         choices=State.choices()
     )
+    # IDEA: add a phone number validator
     phone = StringField(
         'phone'
     )
     image_link = StringField(
-        'image_link', validators=[URL(),Optional()]
+        'image_link', validators=[Length(-1,500),URL(),Optional()]
     )
     genres = SelectMultipleField(
         'genres', validators=[DataRequired(), anyof_for_multiple_field( [ choice.value for choice in Genre ] )],
         choices=Genre.choices()
     )
     facebook_link = StringField(
-        'facebook_link', validators=[URL(),Optional()]
+        'facebook_link', validators=[Length(-1,120),URL(),Optional()]
     )
