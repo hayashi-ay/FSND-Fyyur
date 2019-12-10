@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_wtf import Form
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
-from wtforms.validators import ValidationError, DataRequired, AnyOf, URL
+from wtforms.validators import ValidationError, Optional, DataRequired, AnyOf, URL
 from enums import State, Genre
 
 def anyof_for_multiple_field(values):
@@ -50,14 +50,14 @@ class VenueForm(Form):
         'phone'
     )
     image_link = StringField(
-        'image_link'
+        'image_link', validators=[URL(),Optional()]
     )
     genres = SelectMultipleField(
         'genres', validators=[DataRequired(), anyof_for_multiple_field( [ choice.value for choice in Genre ] )],
         choices=Genre.choices()
     )
     facebook_link = StringField(
-        'facebook_link', validators=[URL()]
+        'facebook_link', validators=[URL(),Optional()]
     )
 
 class ArtistForm(Form):
@@ -75,12 +75,12 @@ class ArtistForm(Form):
         'phone'
     )
     image_link = StringField(
-        'image_link'
+        'image_link', validators=[URL(),Optional()]
     )
     genres = SelectMultipleField(
         'genres', validators=[DataRequired(), anyof_for_multiple_field( [ choice.value for choice in Genre ] )],
         choices=Genre.choices()
     )
     facebook_link = StringField(
-        'facebook_link', validators=[URL()]
+        'facebook_link', validators=[URL(),Optional()]
     )
