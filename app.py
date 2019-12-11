@@ -53,20 +53,30 @@ def index():
 
 @app.route('/venues')
 def venues():
-  # TODO: group by city and state
-  venues = Venue.query.all()
+  venues = Venue.query.order_by(Venue.state, Venue.city).all()
 
   data = []
+  prev_city = None
+  prev_state = None
   for venue in venues:
-    tmp = {}
-    tmp['city'] = venue.city
-    tmp['state'] = venue.state
-    tmp['venues'] = [{
+    venue_data = {
       'id': venue.id,
       'name': venue.name,
       'num_upcoming_shows': len( list( filter( lambda x: x.start_time > datetime.today(), venue.shows ) ) )
-    }]
-    data.append(tmp)
+    }
+    if venue.city == prev_city and venue.state == prev_state:
+      tmp['venues'].append(venue_data)
+    else:
+      if prev_city is not None:
+        data.append(tmp)
+      tmp = {}
+      tmp['city'] = venue.city
+      tmp['state'] = venue.state
+      tmp['venues'] = [venue_data]
+    prev_city = venue.city
+    prev_state = venue.state
+
+  data.append(tmp)
 
   return render_template('pages/venues.html', areas=data)
 
