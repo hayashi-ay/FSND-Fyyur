@@ -82,14 +82,19 @@
 		fetch( '/venues/' + venueId, {
 			method: 'DELETE',
 		}).then( response => {
-      if ( response.ok ) {
-        window.location.href = '/';
-      } else {
-        window.location.reload();
-      }
-    }).catch( error => {
-      // IDEA: handle error
-    });
+			if ( response.ok ) {
+				window.location.href = '/';
+			} else {
+				window.location.reload();
+			}
+		}).catch( error => {
+			// IDEA: handle error
+		});
+	}
+
+	document.getElementById("venue-edit").onclick = function(e) {
+		const venueId = e.currentTarget.dataset['id'];
+		window.location.href = `/venues/${venueId}/edit`;
 	}
 </script>
 
